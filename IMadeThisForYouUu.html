@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 💗</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: #f8f4f6;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND ANIMATION */
+.bg-heart {
+    position: fixed;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.6;
+}
+
+.bg-circle {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 182, 193, 0.2);
+    border-radius: 50%;
+    filter: blur(50px);
+    animation: move 10s infinite alternate;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
+}
+
+@keyframes move {
+    from { transform: translate(0,0); }
+    to { transform: translate(120px, -120px); }
+}
+
+/* HEADER */
+.header img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+/* TITLE */
+h1 {
+    color: #b76e8a;
+    margin-top: 20px;
+}
+
+/* BUTTONS */
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.yes { background: #d291bc; color: white; }
+.no { background: #eee; }
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* ERROR */
+#error {
+    color: red;
+}
+
+/* POPUPS */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: 0.4s;
+}
+
+.popup.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* CARD */
+.card-container {
+    perspective: 1000px;
+    margin-top: 30px;
+}
+
+.card {
+    width: 300px;
+    height: 400px;
+    margin: auto;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    cursor: pointer;
+}
+
+.card.flip {
+    transform: rotateY(180deg);
+}
+
+.side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    border: 2px solid #e3a6c8;
+    background: #fffafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+}
+
+.back {
+    transform: rotateY(180deg);
+    padding: 15px;
+}
+
+/* SECOND PAGE */
+#page2 {
+    display: none;
+    padding: 20px;
+}
+
+.main-question {
+    font-size: 2em;
+    margin-top: 20px;
+}
+
+/* BIG BUTTONS */
+.big-btn {
+    padding: 15px 40px;
+    font-size: 18px;
+}
+
+/* CONFETTI */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: 0;
+    animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+    to { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* HEARTS */
+.heart {
+    position: fixed;
+    animation: float 4s linear infinite;
+}
+
+/* CHECKMARK FADE-IN */
+.check {
+    display: inline-block;
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.check.show {
+    opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<script>
+for(let i=0;i<10;i++){
+    let c = document.createElement("div");
+    c.className = "bg-circle";
+    c.style.left = Math.random()*100 + "vw";
+    c.style.top = Math.random()*100 + "vh";
+    document.body.appendChild(c);
+}
+
+setInterval(()=> {
+    let h = document.createElement("div");
+    h.className = "bg-heart";
+    h.innerHTML = "💗";
+    h.style.left = Math.random()*100 + "vw";
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),6000);
+},500);
+</script>
+
+<div class="header">
+    <img src="IMG_0296.jpeg">
+</div>
+
+<h1>Happy Birthday 💗</h1>
+
+<p>Do you want to open your card?</p>
+
+<button class="yes" onclick="startExperience()">Yes</button>
+<button class="no" onclick="errorMsg('Incorrect option, try again')">No</button>
+
+<div id="error"></div>
+
+<div class="popup" id="popup">
+    <h2>Yayy, you said Yes 🎉</h2>
+</div>
+
+<div class="popup" id="finalPopup">
+    <h2>Yayy, You said Yes 🎉🤍</h2>
+</div>
+
+<div class="card-container" id="cardSection" style="display:none;">
+    <div class="card" onclick="flipCard()" id="card">
+        <div class="side front">
+            <p>Tap to open 🎀</p>
+        </div>
+        <div class="side back">
+            <img src="IMG_0296.jpeg" style="width:100%; border-radius:10px;">
+            <p style="font-style: italic; color:#b04d7c;">
+                Happy Birthday Malwande, as I like to call you.  
+                I wish you an amazing day filled with joy, love and laughter.  
+                Ukhule uze ube u Gogo Owethu. A birthday right after Easter? how much
+                more blessed can you be! However, I still hope God blesses you with many more years
+                to come.
+            </p>
+        </div>
+    </div>
+</div>
+
+<br>
+<button onclick="goToPage2()" id="nextBtn" style="display:none;">Continue 💗</button>
+
+<div id="page2">
+    <p>Owethu Malwande, Will You Be My Girlfriend? 🤍</p>
+    <div class="question">
+        <button class="yes" onclick="yesOnly(this)">Yes</button>
+        <span class="check">✅</span>
+        <button class="no" onclick="errorMsg('I think you wanna try again')">No</button>
+    </div>
+
+    <p>Be honest... you smile when you see my name, right? 🙃</p>
+    <div class="question">
+        <button class="yes" onclick="yesOnly(this)">Yes</button>
+        <span class="check">✅</span>
+        <button class="no" onclick="errorMsg('I think you wanna try again')">No</button>
+    </div>
+
+    <p>You’d lowkey miss me if I disappeared? 👀</p>
+    <div class="question">
+        <button class="yes" onclick="yesOnly(this)">Yes</button>
+        <span class="check">✅</span>
+        <button class="no" onclick="errorMsg('I think you wanna try again')">No</button>
+    </div>
+
+    <p>I already feel like your favourite person? 😒</p>
+    <div class="question">
+        <button class="yes" onclick="yesOnly(this)">Yes</button>
+        <span class="check">✅</span>
+        <button class="no" onclick="errorMsg('I think you wanna try again')">No</button>
+    </div>
+
+    <p>This just feels right, doesn’t it? 😌</p>
+    <div class="question">
+        <button class="yes" onclick="yesOnly(this)">Yes</button>
+        <span class="check">✅</span>
+        <button class="no" onclick="errorMsg('I think you wanna try again')">No</button>
+    </div>
+
+    <br><br>
+    <button class="yes big-btn" onclick="finalYes()">YES 🤍</button>
+    <button class="no big-btn" id="runawayNo">NO</button>
+</div>
+
+<script>
+function errorMsg(msg) {
+    document.getElementById("error").innerText = msg;
+}
+
+function startExperience() {
+    document.getElementById("bgMusic").play();
+
+    document.getElementById("popup").classList.add("show");
+
+    setTimeout(() => {
+        document.getElementById("popup").classList.remove("show");
+        document.getElementById("cardSection").style.display = "block";
+    }, 1500);
+}
+
+function flipCard() {
+    document.getElementById("card").classList.toggle("flip");
+    document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+function goToPage2() {
+    window.scrollTo(0,0);
+    document.getElementById("page2").style.display = "block";
+}
+
+function yesOnly(btn) {
+    createHearts();
+
+    // Fade-in checkmark
+    const check = btn.nextElementSibling;
+    if(check) {
+        check.classList.add("show");
+    }
+}
+
+function finalYes() {
+    alert("You just made me the happiest person alive 🤍");
+
+    let popup = document.getElementById("finalPopup");
+    popup.classList.add("show");
+
+    createConfetti();
+
+    setTimeout(() => {
+        popup.classList.remove("show");
+    }, 2500);
+}
+
+function createConfetti() {
+    for(let i=0;i<80;i++){
+        let conf = document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.left = Math.random()*100 + "vw";
+        conf.style.background = "hsl(" + Math.random()*360 + ",100%,70%)";
+        document.body.appendChild(conf);
+
+        setTimeout(()=>conf.remove(),3000);
+    }
+}
+
+function createHearts() {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "🤍";
+    heart.style.left = Math.random()*100 + "vw";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),4000);
+}
+
+const noBtn = document.getElementById("runawayNo");
+
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+</script>
+
+</body>
+</html>
